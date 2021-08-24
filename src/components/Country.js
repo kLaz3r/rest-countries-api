@@ -5,6 +5,9 @@ import axios from 'axios';
 const Wrapper = styled.div`
   display: block;
   padding: 2rem 5rem;
+  @media (max-width: 500px) {
+    padding: 1rem;
+  }
 `;
 const BackButton = styled.button`
   i {
@@ -17,11 +20,16 @@ const BackButton = styled.button`
   font-size: 1.5rem;
   border-radius: 10px;
   transition: opacity 0.2s ease-in-out;
-  box-shadow: 0px 0px 15px 5px hsl(209, 23%, 10%);
+  box-shadow: 0px 0px 15px 5px
+    ${(props) =>
+      props.theme === 'light' ? 'hsl(0, 0%, 90%)' : 'hsl(209, 23%, 10%)'};
   background: ${(props) =>
     props.theme === 'light' ? 'hsl(0, 0%, 100%)' : 'hsl(209, 23%, 22%)'};
   &:hover {
     opacity: 0.7;
+  }
+  @media (max-width: 400px) {
+    margin: 0 auto;
   }
 `;
 const CountryInfo = styled.div`
@@ -33,6 +41,7 @@ const CountryInfo = styled.div`
   }
   @media (max-width: 1000px) {
     flex-direction: column;
+    padding: 1rem 0;
     img {
       width: 100%;
     }
@@ -64,13 +73,16 @@ const Info = styled.div`
     span {
       padding: 0.5rem 2rem;
       border-radius: 10px;
+      border: 1px solid
+        ${(props) =>
+          props.theme !== 'light' ? 'hsl(0, 0%, 100%)' : 'hsl(209, 23%, 22%)'};
       margin: 0.2rem 0.5rem;
       font-size: 1rem;
       color: inherit;
       background: ${(props) =>
         props.theme === 'light' ? 'hsl(0, 0%, 100%)' : 'hsl(209, 23%, 22%)'};
       @media (max-width: 700px) {
-        display: block;
+        display: inline-block;
         width: 50%;
         margin: 0.5rem auto;
         text-align: center;

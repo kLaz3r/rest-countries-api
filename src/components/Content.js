@@ -90,10 +90,9 @@ const Content = ({ theme, countryClicked }) => {
           onChange={regionChangeHandler}
           name='region'
           id='region'
+          defaultValue=''
         >
-          <option selected value=''>
-            Select Region
-          </option>
+          <option value=''>Select Region</option>
           <option value='africa'>Africa</option>
           <option value='americas'>America</option>
           <option value='asia'>Asia</option>
