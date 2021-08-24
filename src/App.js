@@ -1,24 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyles } from './global';
+import { darkTheme, lightTheme } from './theme';
+import React, { useState } from 'react';
+import Header from './components/Header';
+import Content from './components/Content';
+import Country from './components/Country';
 
 function App() {
+  const [theme, setTheme] = useState('dark');
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [screen, setScreen] = useState(true);
+  const themeToggler = () => {
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  };
+  const countryClicked = (name) => {
+    console.log(name);
+    setSelectedCountry(name);
+    setScreen(false);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <GlobalStyles />
+      <Header theme={theme} themeToggler={themeToggler}></Header>
+      {screen ? (
+        <Content countryClicked={countryClicked} theme={theme}></Content>
+      ) : (
+        <Country
+          setScreen={setScreen}
+          country={selectedCountry}
+          theme={theme}
+        ></Country>
+      )}
+    </ThemeProvider>
   );
 }
 
