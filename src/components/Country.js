@@ -109,11 +109,11 @@ const Country = ({ theme, country, setScreen }) => {
   const [countryData, setCountryData] = useState(null);
   useEffect(() => {
     axios
-      .get(`https://restcountries.eu/rest/v2/alpha/${country}`)
-      .then((res) => setCountryData(res.data))
+      .get(`https://restcountries.com/v3.1/alpha/${country}`)
+      .then((res) => setCountryData(res.data[0]))
       .catch((err) => console.log(err));
   }, [country]);
-  console.log(countryData);
+  countryData && console.log(Object.keys(countryData.languages));
   return (
     <Wrapper>
       <BackButton theme={theme} onClick={() => setScreen(true)}>
@@ -121,13 +121,13 @@ const Country = ({ theme, country, setScreen }) => {
       </BackButton>
       {countryData && (
         <CountryInfo>
-          <img src={countryData.flag} alt='' />
+          <img src={countryData.flags.svg} alt='' />
           <Info theme={theme}>
-            <h1>{countryData.name}</h1>
+            <h1>{countryData.name.common}</h1>
             <div className='info'>
               <p>
                 <span>Native Name: </span>
-                {countryData.nativeName}
+                {countryData.name.nativeName}
               </p>
               <p>
                 <span>Population: </span>
@@ -143,30 +143,33 @@ const Country = ({ theme, country, setScreen }) => {
               </p>
               <p>
                 <span>Capital: </span>
-                {countryData.capital}
+                {countryData.capital[0]}
               </p>
               <p>
                 <span>Top Level Domain: </span>
-                {countryData.topLevelDomain}
+                {countryData.tld}
               </p>
               <p>
                 <span>Currencies: </span>
-                {countryData.currencies.map((item) => {
-                  return item.code + ' ';
-                })}
+                {countryData &&
+                  Object.keys(countryData.currencies).map((item) => {
+                    return item + ' ';
+                  })}
               </p>
               <p>
                 <span>Languages: </span>
-                {countryData.languages.map((item) => {
-                  return item.name + ' ';
-                })}
+                {countryData &&
+                  Object.keys(countryData.languages).map((item) => {
+                    return item + ' ';
+                  })}
               </p>
             </div>
             <p className='borders'>
               <p>Border Countries: </p>
-              {countryData.borders.map((item) => {
-                return <span>{item}</span>;
-              })}
+              {countryData.borders &&
+                countryData.borders.map((item) => {
+                  return <span>{item}</span>;
+                })}
             </p>
           </Info>
         </CountryInfo>

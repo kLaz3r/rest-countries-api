@@ -46,15 +46,15 @@ const Countries = ({ theme, searchValue, regionFilter, countryClicked }) => {
   useEffect(() => {
     if (searchValue !== '') {
       axios
-        .get(`https://restcountries.eu/rest/v2/name/${searchValue}`)
+        .get(`https://restcountries.com/v3.1/name/${searchValue}`)
         .then((res) => setData(res.data));
     } else if (regionFilter !== '') {
       axios
-        .get(`https://restcountries.eu/rest/v2/region/${regionFilter}`)
+        .get(`https://restcountries.com/v3.1/region/${regionFilter}`)
         .then((res) => setData(res.data));
     } else {
       axios
-        .get(`https://restcountries.eu/rest/v2/all`)
+        .get(`https://restcountries.com/v3.1/all`)
         .then((res) => setData(res.data));
     }
   }, [searchValue, regionFilter]);
@@ -64,13 +64,13 @@ const Countries = ({ theme, searchValue, regionFilter, countryClicked }) => {
         data.map((item) => {
           return (
             <CountryCard
-              onClick={() => countryClicked(item.alpha3Code)}
+              onClick={() => countryClicked(item.cca3)}
               theme={theme}
-              key={item.alpha3Code}
+              key={item.cca3}
             >
-              <Flag src={item.flag}></Flag>
+              <Flag src={item.flags.svg}></Flag>
               <Info>
-                <h4>{item.name}</h4>
+                <h4>{item.name.common}</h4>
                 <p>
                   <span>Population: </span>
                   {item.population}
